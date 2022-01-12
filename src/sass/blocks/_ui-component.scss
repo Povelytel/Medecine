@@ -1,0 +1,58 @@
+#Ui-Components {
+    margin-left: 75px;
+
+
+    h1 {
+        font-weight: 500;
+        height: 100px;
+        line-height: 100px;
+        margin: 1% 16%;
+        margin-left: 75px;
+        font-size: 28px;
+    }
+
+    .ui-content {
+        background: rgb(255, 255, 255);
+        overflow: hidden;
+        margin: 1% 4%;
+        padding-bottom: 80px;
+        width: 92%;
+        min-width: 1250px;
+
+        .for-input {
+            display: block;
+            margin-left: 75px;
+            overflow: hidden;
+
+        }
+
+        .for-button {
+            width: 1300px;
+            display: block;
+            margin-left: 75px;
+            overflow: hidden;
+
+            .ui-block {
+                text-align: center;
+            }
+
+            .hoverr input {
+                background: rgb(62, 161, 254);
+            }
+        }
+
+        .ui-block {
+            width: 300px;
+            display: inline-block;
+            float: left;
+            margin: 31px 88px 0px 0px;
+
+            p {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 40px;
+            }
+
+        }
+    }
+}

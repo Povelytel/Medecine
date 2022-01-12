@@ -1,0 +1,131 @@
+#profile {
+    margin-left: 100px;
+
+    h1 {
+        font-weight: 500;
+        height: 100px;
+        line-height: 100px;
+        margin: 1% 4%;
+        font-size: 28px;
+    }
+}
+
+#user_info {
+    overflow: hidden;
+    background: rgb(255, 255, 255);
+    width: 92%;
+    margin: 1% auto;
+
+    form {
+        padding: 10vh 0px;
+        display: block;
+
+        span {
+            display: block;
+            overflow: inline-block;
+            height: 49px;
+            margin: 10px 2% 0px 1%;
+            width: 22%;
+            min-width: 200px;
+            float: right;
+            text-align: right;
+        }
+
+        .uiButton {
+            max-width: 22%;
+            min-width: 200px;
+            display: inline-block;
+            overflow: hidden;
+            height: 49px;
+            margin: 10px 4% 0px 0%;
+            width: 22%;
+            min-width: 200px;
+            float: right;
+            text-align: right;
+
+            input[type="button"] {
+                float: right;
+            }
+        }
+
+        .uiInput {
+            overflow: hidden;
+            display: inline-block;
+            margin: 10px 1% 0px;
+            width: 22%;
+            min-width: 200px;
+            padding: 0px;
+
+            input {
+                padding-left: 10%;
+                padding-right: 10%;
+                width: 78%;
+                border: 1%;
+            }
+        }
+
+        .uiInputSelect {
+            overflow: hidden;
+            display: inline-block;
+            margin: 10px 1% 0px;
+            width: 22%;
+            min-width: 200px;
+
+            input {
+                padding-left: 10%;
+                padding-right: 10%;
+                width: 78%;
+                border: 1%;
+            }
+        }
+    }
+
+    .prof_img {
+        overflow: hidden;
+        margin: 10px 2% 0px 1%;
+        width: 22%;
+        min-width: 200px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+
+        img {
+            height: 150px;
+            width: auto;
+            margin: auto;
+            border-radius: 50%;
+        }
+
+        label {
+            display: inline-block;
+            cursor: pointer;
+            width: auto;
+            background: rgb(0, 132, 255);
+            color: white;
+            border: none;
+            font-size: 20px;
+            font-family: 'MrEavesXLModOT-Reg', Helvetica, Arial;
+            border-radius: 7px;
+            padding: 15px 35px;
+            margin: 5px auto;
+            margin-top: 45px;
+
+            &:hover {
+                background: rgb(62, 161, 254);
+            }
+        }
+
+        .progress-bar {
+            margin: 10px auto;
+            background: rgba(132, 132, 132, 0.1);
+            font-size: 20px;
+            font-family: 'MrEavesXLModOT-Reg', Helvetica, Arial;
+            transition: all 0.5s ease-in;
+        }
+
+        .progress-bar:hover {
+            font-size: 30px;
+            background: rgba(132, 132, 132, 0.3);
+        }
+    }
+}

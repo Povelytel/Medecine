@@ -1,0 +1,28 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	background: rgb(245, 248, 253);
+	overflow-x: hidden;
+	font-family: 'Source Sans Pro', 'MrEavesXLModOT-Reg', Helvetica, Arial;
+	font-size: 28px;
+	font-weight: 400;
+}
+
+#app {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	overflow-x: hidden;
+
+
+}
+
+.hide {
+	position: absolute;
+	overflow: hidden;
+	z-index: -1;
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+}

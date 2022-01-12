@@ -1,0 +1,84 @@
+input {
+    @include fonts(20px);
+    border-radius: 7px;
+
+    &[type="text"] {
+        padding: 10px 35px;
+        float: left;
+        border: 1px solid rgb(216, 216, 216);
+        margin: 0px auto 40px;
+
+        &:focus {
+            border: 1px solid rgb(0, 132, 255);
+        }
+
+        &:disabled {
+            background: rgb(255, 255, 255);
+            color: rgb(248, 248, 248);
+            border: 1px solid rgba(216, 216, 216, 0.5);
+        }
+
+        &.inputCheack {
+            // @extend  input[type="text"]:focus;
+            background: white;
+        }
+    }
+
+    &[type="button"] {
+        width: auto;
+        float: none;
+        margin: 0px;
+        background: rgb(0, 132, 255);
+        color: white;
+        border: none;
+        margin-top: 0px;
+        padding: 10px 50px;
+
+        &:hover {
+            background: rgb(62, 161, 254);
+        }
+
+        &:disabled {
+            background: rgb(227, 227, 227);
+        }
+
+        &.hoverr {
+            background: rgb(62, 161, 254);
+        }
+    }
+
+    &[type="submit"] {
+        width: auto;
+        float: none;
+        margin: 0px;
+        background: rgb(0, 132, 255);
+        color: white;
+        border: none;
+        margin-top: 0px;
+        padding: 10px 50px;
+
+        &:hover {
+            background: rgb(62, 161, 254);
+        }
+
+        &:disabled {
+            background: rgb(227, 227, 227);
+        }
+
+        &.hoverr {
+            background: rgb(62, 161, 254);
+        }
+    }
+}
+
+label.label_for_inputs {
+    @include fonts(20px);
+    position: absolute;
+    margin-left: 20px;
+    margin-top: -16px;
+    padding: 5px 10px;
+    background: rgb(255, 255, 255);
+    color: rgb(0, 132, 255);
+    display: block;
+
+}
