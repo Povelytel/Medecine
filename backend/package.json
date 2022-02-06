@@ -1,0 +1,23 @@
+{
+  "name": "medecine_serv",
+  "version": "1.0.0",
+  "description": "NodeJs server for medecineServ",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "start:dev": "pm2 start ecosystem.config.js --env dev",
+    "start:prod": "pm2 start ecosystem.config.js --env prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sasha Makaruk",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.7",
+    "sequelize": "^5.8.6"
+  }
+}

@@ -51,3 +51,148 @@
         margin-bottom: -5px;
     }
 }
+
+#select_patient {
+    overflow: hidden;
+    background: rgb(255, 255, 255);
+    width: 92%;
+    margin: 1% auto;
+
+    form {
+        padding: 10vh 0px;
+        display: block;
+
+        span {
+            display: inline-block;
+            overflow: hidden;
+            height: 49px;
+            margin: 10px 2% 0px 1%;
+            width: 22%;
+            min-width: 200px;
+            float: right;
+            text-align: right;
+        }
+
+        .uiButton {
+            max-width: 22%;
+            min-width: 200px;
+            display: inline-block;
+            overflow: hidden;
+            height: 49px;
+            margin: 10px 4% 0px 0%;
+            width: 22%;
+            min-width: 200px;
+            float: right;
+            text-align: right;
+
+            input[type="button"] {
+                float: right;
+            }
+        }
+
+        .uiInput {
+            overflow: hidden;
+            display: inline-block;
+            margin: 10px 1% 0px;
+            width: 22%;
+            min-width: 200px;
+            padding: 0px;
+
+            input {
+                padding-left: 10%;
+                padding-right: 10%;
+                width: 78%;
+                border: 1px;
+            }
+        }
+
+        .uiInputSelect {
+            overflow: hidden;
+            display: inline-block;
+            margin: 10px 1% 0px;
+            width: 22%;
+            min-width: 200px;
+
+            input {
+                padding-left: 10%;
+                padding-right: 10%;
+                width: 78%;
+                border: 1px;
+            }
+        }
+    }
+
+}
+
+#patient_info {
+    overflow: hidden;
+    background: rgb(255, 255, 255);
+    width: 92%;
+    margin: 1% auto;
+
+
+
+    form {
+        padding: 10vh 0px;
+        display: block;
+
+        span {
+            display: inline-block;
+            overflow: hidden;
+            height: 49px;
+            margin: 10px 2% 0px 1%;
+            width: 22%;
+            min-width: 200px;
+            float: right;
+            text-align: right;
+        }
+
+        .uiButton {
+            max-width: 22%;
+            min-width: 200px;
+            display: inline-block;
+            overflow: hidden;
+            height: 49px;
+            margin: 10px 4% 0px 0%;
+            width: 22%;
+            min-width: 200px;
+            float: right;
+            text-align: right;
+
+            input[type="button"] {
+                float: right;
+            }
+        }
+
+        .uiInput {
+            overflow: hidden;
+            display: inline-block;
+            margin: 10px 1% 0px;
+            width: 22%;
+            min-width: 200px;
+            padding: 0px;
+
+            input {
+                padding-left: 10%;
+                padding-right: 10%;
+                width: 78%;
+                border: 1px;
+            }
+        }
+
+        .uiInputSelect {
+            overflow: hidden;
+            display: inline-block;
+            margin: 10px 1% 0px;
+            width: 22%;
+            min-width: 200px;
+
+            input {
+                padding-left: 10%;
+                padding-right: 10%;
+                width: 78%;
+                border: 1px;
+            }
+        }
+    }
+}

@@ -114,3 +114,6 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# Backend
+backend/config/config.json
