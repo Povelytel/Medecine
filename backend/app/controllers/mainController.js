@@ -2,12 +2,19 @@
 
 const createHmac = require('crypto').createHmac,
   fs = require('fs'),
+  path = require('path'),
+  PDFDocument = require('pdfkit'),
   logsDir = 'logs',
   sep = '__________________________________________________________',
   sep2 = '----------------------------------------------------------';
 
+const { getDate, getFullName } = require('../libs/main');
+const { getDocumentTypeOne } = require('../libs/document');
+
 const models = require('../models');
 const User = models.user;
+const Appointment = models.appointment;
+const Global = require(path.join(__dirname, '..', 'config', 'config.json'))['Global'];
 
 exports.someToLog = function (req, res, next) {
   console.log(sep);
@@ -39,16 +46,82 @@ exports.checkAuth = function (req, res, next) {
 exports.test = async function (req, res) {
   try {
     log('test');
-
-    const user = await getUser(100001);
-
-    console.log(user.first_name);
-
-    res.json({
-      result: 'test',
-    });
   } catch (e) {
     log_error('Error in test. Reson: ', req, res, e.message);
+  }
+};
+
+exports.getDocument = async function (req, res) {
+  try {
+    let dateStart = new Date();
+    log('\x1b[32m%s\x1b[0m', 'getDocument');
+    log('Ip: ' + getIp(req));
+    log('TimeStart: ' + dateStart);
+
+    if (isUnSets(req.query.id_user, req.query.id_appointment)) {
+      throw new Error('{id_user, id_appointment} not in the request');
+    }
+
+    let id_user = Number(req.query.id_user);
+    let id_appointment = Number(req.query.id_appointment);
+
+    if (Number.isNaN(id_user) && Number.isNaN(id_appointment)) {
+      throw new Error('{id_user, id_appointment} must be a number');
+    }
+
+    const user = await getUser(id_user),
+      appointment = await getAppointment(id_appointment);
+
+    res.contentType('application/pdf');
+    let myDoc = new PDFDocument();
+    myDoc.pipe(res);
+
+    const fontSrc = path.join(__dirname, '.', 'Times New Roman', 'times new roman.ttf');
+    const fontSrcBo = path.join(__dirname, '.', 'Times New Roman', 'times new roman bold.ttf');
+    myDoc.registerFont('Ti-Ro', fontSrc);
+    myDoc.registerFont('Ti-Bo', fontSrcBo);
+    getDocumentTypeOne(myDoc, user, appointment, Global);
+  } catch (e) {
+    log_error('Can`t get document. Reson: ', req, res, e.message);
+  }
+};
+
+exports.getUsers = async function (req, res) {
+  try {
+    let dateStart = new Date();
+    log('\x1b[32m%s\x1b[0m', 'getUsers');
+    log('Ip: ' + getIp(req));
+    log('TimeStart: ' + dateStart);
+    const users = await getUsersInfo();
+    res.json({
+      result: { users },
+    });
+  } catch (e) {
+    log_error('Can`t get users. Reson: ', req, res, e.message);
+  }
+};
+
+exports.getUser = async function (req, res) {
+  try {
+    let dateStart = new Date();
+    log('\x1b[32m%s\x1b[0m', 'getUser');
+    log('Ip: ' + getIp(req));
+    log('TimeStart: ' + dateStart);
+
+    if (isUnSet(req.body.id)) {
+      throw new Error('Id user not in the request');
+    }
+    const id = Number(req.body.id);
+    if (Number.isNaN(id)) {
+      throw new Error('Id user must be a number');
+    }
+
+    const user = await getUser(Number(req.body.id));
+    res.json({
+      result: { user },
+    });
+  } catch (e) {
+    log_error('Can`t get user. Reson: ', req, res, e.message);
   }
 };
 
@@ -56,27 +129,13 @@ exports.getAddress = async function (req, res) {
   try {
     let dateStart = new Date();
     log('\x1b[32m%s\x1b[0m', 'getAddress');
-    log('Ip: ' + getip(req));
+    log('Ip: ' + getIp(req));
     log('TimeStart: ' + dateStart);
     if (isUnSet(req.body.passwd)) {
       throw new Error('Password not in the request');
     }
   } catch (e) {
     log_error('Can`t get new address. Reson: ', req, res, e.message);
-  }
-};
-
-exports.findAddress = async function (req, res) {
-  try {
-    let dateStart = new Date();
-    log('\x1b[32m%s\x1b[0m', 'findAddress');
-    log('Ip: ' + getip(req));
-    log('TimeStart: ' + dateStart);
-    if (isUnSets(req.body.passwd, req.body.address)) {
-      throw new Error('Password or address is miss');
-    }
-  } catch (e) {
-    log_error('Can`t find address. Reson: ', req, res, e.message);
   }
 };
 
@@ -88,7 +147,11 @@ async function getUser(id) {
       },
     })
       .then((user) => {
-        res(user);
+        if (user) {
+          res(user);
+        } else {
+          rej(new Error("User doesn't found"));
+        }
       })
       .catch((err) => {
         rej(err);
@@ -96,7 +159,51 @@ async function getUser(id) {
   });
 }
 
-function getip(req) {
+async function getAppointment(id) {
+  return new Promise((res, rej) => {
+    Appointment.findOne({
+      where: {
+        id,
+      },
+    })
+      .then((appointment) => {
+        if (appointment) {
+          res(appointment);
+        } else {
+          rej(new Error("Appointment doesn't found"));
+        }
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+}
+
+async function getUsersInfo() {
+  return new Promise((res, rej) => {
+    User.findAll({})
+      .then((users) => {
+        if (users && users.length > 0) {
+          const usersInfo = [];
+          users.forEach((user) => {
+            usersInfo.push({
+              id: user.id,
+              full_name: getFullName(user.last_name, user.first_name, user.patronymic),
+              date: getDate(new Date(user.birthday), true),
+            });
+          });
+          res(usersInfo);
+        } else {
+          rej(new Error("Users doesn't found"));
+        }
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+}
+
+function getIp(req) {
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   if (typeof ip !== 'undefined') {
     return ip;
@@ -137,7 +244,7 @@ function log_error(err_mes, req = false, res = false, log = false) {
     fs.appendFileSync(fname, '\n', 'utf8');
   }
   if (req) {
-    saveViewLog('Ip: ' + getip(req), fname, color);
+    saveViewLog('Ip: ' + getIp(req), fname, color);
   }
   saveViewLog('Time: ' + date, fname, color);
   saveViewLog('Error: ', fname, color);
@@ -174,7 +281,7 @@ function isUnSet(some) {
 function isUnSets(...args) {
   // args — имя массива
   for (let arg of args) {
-    if (typeof arg === 'undefined') {
+    if (typeof arg === 'undefined' || arg === '' || arg === null) {
       return true;
     }
   }
