@@ -15,9 +15,9 @@ function getDate(date, namedMonth = false, firstYears = false) {
       'Грудень',
     ];
     if (firstYears) {
-      return `${date.getFullYear()} ${monthArr[date.getMonth()]} ${date.getDate()}`;
+      return `${date.getFullYear()} ${monthArr[date.getMonth()]} "${date.getDate()}"`;
     }
-    return `${date.getDate()} ${monthArr[date.getMonth()]} ${date.getFullYear()}`;
+    return `“${date.getDate()}” ${monthArr[date.getMonth()]} ${date.getFullYear()}`;
   }
 
   if (firstYears) {

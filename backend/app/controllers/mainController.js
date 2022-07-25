@@ -9,7 +9,7 @@ const createHmac = require('crypto').createHmac,
   sep2 = '----------------------------------------------------------';
 
 const { getDate, getFullName } = require('../libs/main');
-const { getDocumentTypeOne } = require('../libs/document');
+const { getDocumentTypeOne, getDocumentTypeTwo } = require('../libs/document');
 
 const models = require('../models');
 const User = models.user;
@@ -58,33 +58,57 @@ exports.getDocument = async function (req, res) {
     log('Ip: ' + getIp(req));
     log('TimeStart: ' + dateStart);
 
-    if (isUnSets(req.query.id_user, req.query.id_appointment)) {
-      throw new Error('{id_user, id_appointment} not in the request');
+    if (isUnSets(req.query.id_user, req.query.id_appointment, req.query.type_doc)) {
+      throw new Error('{id_user, id_appointment, type_doc} not in the request');
     }
 
     let id_user = Number(req.query.id_user);
     let id_appointment = Number(req.query.id_appointment);
+    let type_doc = Number(req.query.type_doc);
 
-    if (Number.isNaN(id_user) && Number.isNaN(id_appointment)) {
-      throw new Error('{id_user, id_appointment} must be a number');
+    if (Number.isNaN(id_user) && Number.isNaN(id_appointment) && Number.isNaN(type_doc)) {
+      throw new Error('{id_user, id_appointment, type_doc} must be a number');
     }
 
     const user = await getUser(id_user),
       appointment = await getAppointment(id_appointment);
 
     res.contentType('application/pdf');
-    let myDoc = new PDFDocument();
-    myDoc.pipe(res);
-
-    const fontSrc = path.join(__dirname, '.', 'Times New Roman', 'times new roman.ttf');
-    const fontSrcBo = path.join(__dirname, '.', 'Times New Roman', 'times new roman bold.ttf');
-    myDoc.registerFont('Ti-Ro', fontSrc);
-    myDoc.registerFont('Ti-Bo', fontSrcBo);
-    getDocumentTypeOne(myDoc, user, appointment, Global);
+    if (type_doc === 1) {
+      const myDoc = new PDFDocument({ size: 'A4' });
+      myDoc.pipe(res);
+      initFontDoc(myDoc);
+      getDocumentTypeOne(myDoc, user, appointment, Global);
+    }
+    if (type_doc === 2) {
+      const myDoc = new PDFDocument({
+        size: 'A5',
+        margins: {
+          top: 30,
+          bottom: 60,
+          left: 29,
+          right: 50,
+        },
+      });
+      myDoc.pipe(res);
+      initFontDoc(myDoc);
+      getDocumentTypeTwo(myDoc, user, appointment, Global);
+    }
   } catch (e) {
     log_error('Can`t get document. Reson: ', req, res, e.message);
   }
 };
+
+function initFontDoc(myDoc) {
+  const fontSrc = path.join(__dirname, '.', 'Times New Roman', 'times new roman.ttf');
+  const fontSrcBo = path.join(__dirname, '.', 'Times New Roman', 'times new roman bold.ttf');
+  const fontSrcIt = path.join(__dirname, '.', 'Times New Roman', 'times new roman italic.ttf');
+  const fontSrcBoIt = path.join(__dirname, '.', 'Times New Roman', 'times new roman bold italic.ttf');
+  myDoc.registerFont('Ti-Ro', fontSrc);
+  myDoc.registerFont('Ti-Bo', fontSrcBo);
+  myDoc.registerFont('Ti-It', fontSrcIt);
+  myDoc.registerFont('Ti-BoIt', fontSrcBoIt);
+}
 
 exports.getUsers = async function (req, res) {
   try {
